@@ -1,3 +1,7 @@
+use egui::Window;
+
+use crate::three_d_app::{three_d_draw, MyThreeApp};
+
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(serde::Deserialize, serde::Serialize)]
 #[serde(default)] // if we add new fields, give them default values when deserializing old state
@@ -90,6 +94,13 @@ impl eframe::App for TemplateApp {
                 powered_by_egui_and_eframe(ui);
                 egui::warn_if_debug_build(ui);
             });
+        });
+
+        let window = Window::new("three-d");
+
+        window.show(ctx, |ui| {
+            let mut pp = MyThreeApp { angle: 0.0 };
+            three_d_draw(&mut pp, ui);
         });
     }
 }
